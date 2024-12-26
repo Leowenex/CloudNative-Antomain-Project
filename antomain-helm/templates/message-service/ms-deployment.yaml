@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-deployment
+  labels:
+    app: Antomain
+    service: message-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Antomain
+      service: message-service
+  template:
+    metadata:
+      labels:
+        app: Antomain
+        service: message-service
+    spec:
+      containers:
+        - name: message-service
+          image: leowenex/antomain-cloudnative-messageservice:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081

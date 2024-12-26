@@ -1,0 +1,9 @@
+apiVersion: v2
+name: antomain-helm
+description: The helm chart for the Antomain cloud-native project.
+
+type: application
+version: 0.1.0
+icon: https://i.imgflip.com/8vzgag.jpg?a481608
+
+appVersion: "0.0.1"

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-deployment
+  labels:
+    app: Antomain
+    service: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Antomain
+      service: user-service
+  template:
+    metadata:
+      labels:
+        app: Antomain
+        service: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: leowenex/antomain-cloudnative-userservice:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+          env:
+            - name: JWT_SECRET
+              value: "secretsecretsecretsecretsecretsecretsecretsecretsecretsecret"
+            - name: JWT_TOKEN_LIFETIME_MINUTES
+              value: "60"
+            - name: MESSAGE_SERVICE_URL
+              value: "http://message-service"
