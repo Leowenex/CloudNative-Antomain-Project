@@ -19,7 +19,10 @@ spec:
     spec:
       containers:
         - name: message-service
-          image: leowenex/antomain-cloudnative-messageservice:main
+          image: leowenex/antomain-cloudnative-messageservice:pr-4
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
+          envFrom:
+            - secretRef:
+                name: message-secret

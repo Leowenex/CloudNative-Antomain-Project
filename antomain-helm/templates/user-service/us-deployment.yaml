@@ -19,14 +19,10 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: leowenex/antomain-cloudnative-userservice:main
+          image: leowenex/antomain-cloudnative-userservice:pr-4
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
-          env:
-            - name: JWT_SECRET
-              value: "secretsecretsecretsecretsecretsecretsecretsecretsecretsecret"
-            - name: JWT_TOKEN_LIFETIME_MINUTES
-              value: "60"
-            - name: MESSAGE_SERVICE_URL
-              value: "http://message-service"
+          envFrom:
+            - secretRef:
+                name: user-secret
