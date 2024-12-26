@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
         - name: message-service
-          image: leowenex/antomain-cloudnative-messageservice:pr-4
-          imagePullPolicy: Always
+          image: "leowenex/antomain-cloudnative-messageservice:{{ .Values.messageservice.image.tag }}"
+          imagePullPolicy: {{ .Values.messageservice.image.imagePullPolicy }}
           ports:
             - containerPort: 8081
           envFrom:

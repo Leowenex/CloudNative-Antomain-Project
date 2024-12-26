@@ -19,10 +19,12 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: leowenex/antomain-cloudnative-userservice:pr-4
-          imagePullPolicy: Always
+          image: "leowenex/antomain-cloudnative-userservice:{{ .Values.userservice.image.tag }}"
+          imagePullPolicy: {{ .Values.userservice.image.imagePullPolicy }}
           ports:
             - containerPort: 8082
           envFrom:
             - secretRef:
                 name: user-secret
+      imagePullSecrets:
+        - name: regcred

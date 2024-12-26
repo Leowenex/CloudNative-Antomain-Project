@@ -1,0 +1,28 @@
+
+messageservice:
+  image:
+      tag: main
+      imagePullPolicy: Always
+  service:
+      type: ClusterIP
+
+userservice:
+  image:
+      tag: main
+      imagePullPolicy: Always
+  service:
+      type: ClusterIP
+  secret:
+      jwtsecret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecret
+      jwttokenlifetimeminutes: 60
+
+postgresql:
+  image:
+      tag: latest
+      imagePullPolicy: IfNotPresent
+  service:
+      type: ClusterIP
+  secret:
+      dbname: antomain
+      username: dbantomain
+      password: dbantomain

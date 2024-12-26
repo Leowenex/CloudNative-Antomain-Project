@@ -6,7 +6,7 @@ metadata:
     app: Antomain
     service: postgres-service
 spec:
-  type: ClusterIP
+  type: {{ .Values.postgresql.service.type }}
   ports:
     - port: 5432
       targetPort: 5432
