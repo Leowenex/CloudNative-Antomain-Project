@@ -3,6 +3,7 @@ package org.antomain.user_service.service;
 import lombok.RequiredArgsConstructor;
 import org.antomain.user_service.model.dto.clientside.TokenDto;
 import org.antomain.user_service.model.dto.clientside.UserAuthDto;
+import org.antomain.user_service.model.dto.clientside.UserDto;
 import org.antomain.user_service.model.entity.User;
 import org.antomain.user_service.repository.UserRepository;
 import org.antomain.user_service.security.JwtService;
@@ -14,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -57,5 +60,11 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+    }
+
+    public List<UserDto> getUsers() {
+        return userRepository.findAll().stream()
+                .map(UserDto::new)
+                .toList();
     }
 }
