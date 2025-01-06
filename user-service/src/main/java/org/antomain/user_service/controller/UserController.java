@@ -19,12 +19,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<TokenDto> registerUser(UserAuthDto userAuthDto) {
+    public ResponseEntity<TokenDto> registerUser(@RequestBody UserAuthDto userAuthDto) {
         return ResponseEntity.ok(userService.registerUser(userAuthDto));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> loginUser(UserAuthDto userAuthDto) {
+    public ResponseEntity<TokenDto> loginUser(@RequestBody UserAuthDto userAuthDto) {
         return ResponseEntity.ok(userService.loginUser(userAuthDto));
     }
 
