@@ -20,6 +20,11 @@ public class ImageController {
         return ResponseEntity.ok(imageService.saveImage(image));
     }
 
+    @GetMapping
+    public ResponseEntity<String[]> listImages() {
+        return ResponseEntity.ok(imageService.listImages());
+    }
+
     //Get image bytes by id
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getImageById(@PathVariable String id) {
