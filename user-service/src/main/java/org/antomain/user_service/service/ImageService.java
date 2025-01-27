@@ -17,7 +17,7 @@ import java.util.UUID;
 public class ImageService {
 
     public byte[] getImageById(String id) {
-        Path path = Paths.get("images", id);
+        Path path = Paths.get("/images", id);
         try {
             return Files.readAllBytes(path);
         } catch (IOException e) {
@@ -26,7 +26,7 @@ public class ImageService {
     }
 
     public String[] listImages() {
-        Path path = Paths.get("images");
+        Path path = Paths.get("/images");
         if (!path.toFile().exists()) {
             return new String[0];
         }
@@ -51,7 +51,7 @@ public class ImageService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only jpg, jpeg and png files are allowed");
         }
 
-        Path path = Paths.get("images");
+        Path path = Paths.get("/images");
         if (!path.toFile().exists()) {
             if (!path.toFile().mkdir()) {
                 throw new RuntimeException("Failed to create images directory");
@@ -59,7 +59,7 @@ public class ImageService {
         }
 
         String id = UUID.randomUUID()+"."+fileType;
-        Path imagePath = Paths.get("images", id);
+        Path imagePath = Paths.get("/images", id);
         try {
             Files.write(imagePath, image.getBytes());
         } catch (IOException e) {
