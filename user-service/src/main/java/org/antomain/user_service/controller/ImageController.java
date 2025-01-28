@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/images")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class ImageController {
 
