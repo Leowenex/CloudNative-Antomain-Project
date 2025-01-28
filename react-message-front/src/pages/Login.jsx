@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 function Login() {
     const navigate = useNavigate()
@@ -58,8 +58,13 @@ function Login() {
                 <button type="submit">Se connecter</button>
             </form>
 
+            <p>Pas de compte ? <Link to="/register">Inscris-toi ici</Link></p>
+
+
             {error && <p className="error">{error}</p>}
         </div>
+
+
     )
 }
 

@@ -1,35 +1,40 @@
-// src/pages/Post.jsx
-import React, { useState } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 function Post() {
-    const [content, setContent] = useState('')
+    const [content, setContent] = useState("")
+    // const [file, setFile] = useState(null)  // Inutile pour l'instant
     const navigate = useNavigate()
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token")
+
+    /*
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0])
+    }
+    */
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            // Construire l'objet message selon votre DTO MessageCreationDto
-            // Par exemple : { content } si votre DTO attend un champ 'content'
-            const response = await axios.post(
-                'http://localhost:8082/messages',
-                { content },
+            // On ne gère pas l’upload pour le moment
+            // let imageId = null
+            // if (file) {
+            //   ...
+            // }
+
+            // Pour le moment, on poste sans image
+            await axios.post(
+                "http://localhost:8082/messages",
+                { content }, // ignorons imageId
                 {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                    headers: { Authorization: `Bearer ${token}` }
                 }
             )
 
-            // Optionnel : afficher la réponse, ou un message de succès
-            console.log('Message posté :', response.data)
-
-            // Redirection vers la page Feed
-            navigate('/feed')
+            navigate("/feed")
         } catch (error) {
-            console.error('Erreur lors de la création du message : ', error)
+            console.error("Erreur lors de la création du message : ", error)
         }
     }
 
@@ -46,8 +51,14 @@ function Post() {
                         required
                     />
                 </div>
+                <div>
+                    <label>Image (optionnel) :</label>
+                    <input type="file" /*onChange={handleFileChange}*/ accept="image/*" />
+                </div>
                 <button type="submit">Publier</button>
             </form>
+
+            <p>Ajout d’image pas encore disponible. (Placeholder)</p>
         </div>
     )
 }
