@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: user-virtualservice
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - antomain-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /user-service/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            port:
+              number: 80
+            host: user-service.default.svc.cluster.local
