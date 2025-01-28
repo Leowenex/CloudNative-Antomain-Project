@@ -16,6 +16,9 @@ function Register() {
                 password
             })
             setMessage(response.data?.message || 'Enregistrement réussi !')
+
+            // On pourrait se connecter automatiquement ici en récupérant le token
+            // Mais dans cet exemple, on redirige vers la page de login :
             navigate('/login')
         } catch (error) {
             setMessage(error.response?.data?.error || 'Une erreur est survenue')
@@ -23,13 +26,14 @@ function Register() {
     }
 
     return (
-        <div>
+        <div className="container">
             <h2>Enregistrement</h2>
             <form onSubmit={handleRegister}>
                 <div>
-                    <label>Username</label>
+                    <label>Nom d'utilisateur</label>
                     <input
-                        type="username"
+                        type="text"
+                        placeholder="Choisissez un nom d'utilisateur"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
@@ -40,6 +44,7 @@ function Register() {
                     <label>Mot de passe</label>
                     <input
                         type="password"
+                        placeholder="Choisissez un mot de passe"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -49,7 +54,7 @@ function Register() {
                 <button type="submit">S'inscrire</button>
             </form>
 
-            {message && <p>{message}</p>}
+            {message && <p className="message">{message}</p>}
         </div>
     )
 }

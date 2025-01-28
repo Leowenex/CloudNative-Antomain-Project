@@ -16,13 +16,13 @@ function Login() {
                 password
             })
 
-            // Si votre backend renvoie un objet du type { token: '...' }
+            // Récupération du token renvoyé par le backend
             const token = response.data.token
 
-            // On stocke le token dans le localStorage
+            // Stockage du token dans le localStorage
             localStorage.setItem('token', token)
 
-            // Redirection vers la page d'accueil par exemple
+            // Redirection vers la page d'accueil
             navigate('/')
         } catch (err) {
             setError(err.response?.data?.error || 'Connexion impossible')
@@ -30,13 +30,14 @@ function Login() {
     }
 
     return (
-        <div>
+        <div className="container">
             <h2>Connexion</h2>
             <form onSubmit={handleLogin}>
                 <div>
-                    <label>Username</label>
+                    <label>Nom d'utilisateur</label>
                     <input
-                        type="username"
+                        type="text"
+                        placeholder="Entrez votre nom d'utilisateur"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
@@ -47,6 +48,7 @@ function Login() {
                     <label>Mot de passe</label>
                     <input
                         type="password"
+                        placeholder="Entrez votre mot de passe"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -56,7 +58,7 @@ function Login() {
                 <button type="submit">Se connecter</button>
             </form>
 
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
         </div>
     )
 }
