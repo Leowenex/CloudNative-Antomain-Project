@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: user-virtualservice
+  name: frontend-virtualservice
 spec:
   hosts:
     - "*"
@@ -10,11 +10,11 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /api #Default api service
+            prefix: / #Default service
       rewrite:
         uri: /
       route:
         - destination:
             port:
               number: 80
-            host: user-service.default.svc.cluster.local
+            host: frontend-service.default.svc.cluster.local

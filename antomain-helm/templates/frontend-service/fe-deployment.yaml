@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: Antomain
+    service: frontend-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Antomain
+      service: frontend-service
+  template:
+    metadata:
+      labels:
+        app: Antomain
+        service: frontend-service
+    spec:
+      containers:
+        - name: frontend-service
+          image: "leowenex/antomain-cloudnative-frontend:{{ .Values.frontendservice.image.tag }}"
+          imagePullPolicy: {{ .Values.frontendservice.image.imagePullPolicy }}
+          ports:
+            - containerPort: 80
