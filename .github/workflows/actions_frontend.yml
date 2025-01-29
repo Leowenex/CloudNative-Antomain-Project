@@ -15,7 +15,7 @@ env:
 
 jobs:
   build_and_push:
-    name: MessageService - Build app, run tests and push to Docker Hub
+    name: Frontend - Build dockerfile and push to Docker Hub
     runs-on: ubuntu-latest
     permissions:
       packages: write
