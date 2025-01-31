@@ -25,7 +25,7 @@ function Post() {
 
             // Pour le moment, on poste sans image
             await axios.post(
-                "http://localhost:8082/messages",
+                "messages",
                 { content }, // ignorons imageId
                 {
                     headers: { Authorization: `Bearer ${token}` }
