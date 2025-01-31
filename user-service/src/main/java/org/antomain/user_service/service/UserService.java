@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 public class UserService {
 
     private final AuthenticationManager authenticationManager;
+    private final ImageService imageService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -66,5 +68,13 @@ public class UserService {
         return userRepository.findAll().stream()
                 .map(UserDto::new)
                 .toList();
+    }
+
+    public String uploadProfilePicture(MultipartFile image) {
+        User currentUser = getCurrentUser();
+        String filename = imageService.saveImage(image);
+        currentUser.setProfilePictureFilename(filename);
+        userRepository.save(currentUser);
+        return filename;
     }
 }

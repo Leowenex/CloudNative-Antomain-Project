@@ -21,8 +21,11 @@ public class Message {
 
     private String content;
 
-    public Message(UUID senderId, String content) {
+    private String messagePictureFilename;
+
+    public Message(UUID senderId, String content, String messagePictureFilename) {
         this.senderId = senderId;
         this.content = content;
+        this.messagePictureFilename = messagePictureFilename;
     }
 }

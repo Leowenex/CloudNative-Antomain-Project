@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,36 +22,36 @@ import java.util.stream.Collectors;
 public class MessageService {
 
     private final RestTemplate restTemplate;
+    private final ImageService imageService;
     private final UserService userService;
     private final UserRepository userRepository;
 
     @Value("${services.messageService.url}")
     private String messageServiceUrl;
 
-    public MessageService(RestTemplateBuilder restTemplateBuilder, UserService userService, UserRepository userRepository) {
+    public MessageService(RestTemplateBuilder restTemplateBuilder, UserService userService, UserRepository userRepository, ImageService imageService) {
         this.restTemplate = restTemplateBuilder.build();
         this.userService = userService;
         this.userRepository = userRepository;
+        this.imageService = imageService;
     }
 
     public EnrichedMessageDto postMessage(MessageCreationDto messageCreationDto) {
         User currentUser = userService.getCurrentUser();
-        AuthoredMessageCreationDto authoredMessageCreationDto = messageCreationDto.toAuthoredMessageCreationDto(currentUser.getId());
+        String messagePictureFilename = uploadMessagePicture(messageCreationDto.getMessagePicture());
+        AuthoredMessageCreationDto authoredMessageCreationDto = new AuthoredMessageCreationDto(currentUser.getId(), messageCreationDto.getContent(), messagePictureFilename);
         MessageDto messageDto = restTemplate.postForObject(messageServiceUrl + "/messages", authoredMessageCreationDto, MessageDto.class);
         assert messageDto != null;
-        return messageDto.toEnrichedMessageDto(currentUser.getUsername());
+        return messageDto.toEnrichedMessageDto(currentUser);
     }
 
     // May need to be sent to own class
     private List<EnrichedMessageDto> enrichMessages(MessageDto[] messages) {
-        HashMap<UUID, String> userCache = new HashMap<>();
+        HashMap<UUID, User> userCache = new HashMap<>();
         return Arrays.stream(messages)
                 .map(message -> {
-                    String senderUsername = userCache.computeIfAbsent(
-                            message.getSenderId(),
-                            id -> userRepository.findById(id).map(User::getUsername).orElse("?")
-                    );
-                    return message.toEnrichedMessageDto(senderUsername);
+                    User sender = userCache.computeIfAbsent(message.getSenderId(), id -> userRepository.findById(id).orElseThrow());
+                    return message.toEnrichedMessageDto(sender);
                 })
                 .collect(Collectors.toList());
     }
@@ -68,4 +69,10 @@ public class MessageService {
         return enrichMessages(messages); // Possible optimisation by prefilling the userCache with the current user
     }
 
+    public String uploadMessagePicture(MultipartFile image) {
+        if (image == null) {
+            return null;
+        }
+        return imageService.saveImage(image);
+    }
 }

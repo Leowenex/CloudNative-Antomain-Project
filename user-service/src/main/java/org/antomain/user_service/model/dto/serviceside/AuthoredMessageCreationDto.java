@@ -1,19 +1,17 @@
 package org.antomain.user_service.model.dto.serviceside;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.antomain.user_service.model.dto.clientside.MessageCreationDto;
 
 import java.util.UUID;
 
 @Getter
 @Setter
-public class AuthoredMessageCreationDto extends MessageCreationDto {
-
-    public AuthoredMessageCreationDto(UUID senderId, String message){
-        super(message);
-        this.senderId = senderId;
-    }
+@AllArgsConstructor
+public class AuthoredMessageCreationDto {
 
     private UUID senderId;
+    private String content;
+    private String messagePictureFilename;
 }

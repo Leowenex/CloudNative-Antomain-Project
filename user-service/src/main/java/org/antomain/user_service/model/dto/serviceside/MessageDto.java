@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.antomain.user_service.model.dto.clientside.EnrichedMessageDto;
+import org.antomain.user_service.model.entity.User;
 
 import java.util.UUID;
 
@@ -17,8 +18,9 @@ public class MessageDto {
     private UUID id;
     private UUID senderId;
     private String content;
+    private String messagePictureFilename;
 
-    public EnrichedMessageDto toEnrichedMessageDto(String senderUsername) {
-        return new EnrichedMessageDto(id, senderId, content, senderUsername);
+    public EnrichedMessageDto toEnrichedMessageDto(User sender) {
+        return new EnrichedMessageDto(id, senderId, content, messagePictureFilename, sender);
     }
 }

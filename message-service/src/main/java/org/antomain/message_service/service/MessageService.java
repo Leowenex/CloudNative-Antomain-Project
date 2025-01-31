@@ -24,7 +24,7 @@ public class MessageService {
     }
 
     public Message saveMessage(MessageCreationDto messageCreationDto) {
-        Message message = new Message(messageCreationDto.getSenderId(), messageCreationDto.getContent());
+        Message message = new Message(messageCreationDto.getSenderId(), messageCreationDto.getContent(), messageCreationDto.getMessagePictureFilename());
         return messageRepository.save(message);
     }
 

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.antomain.user_service.model.dto.clientside.EnrichedMessageDto;
 import org.antomain.user_service.model.dto.clientside.MessageCreationDto;
 import org.antomain.user_service.service.MessageService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,8 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping
-    public ResponseEntity<EnrichedMessageDto> postMeassage(@RequestBody MessageCreationDto messageCreationDto) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<EnrichedMessageDto> postMessage(@ModelAttribute MessageCreationDto messageCreationDto) {
         return ResponseEntity.ok(messageService.postMessage(messageCreationDto));
     }
 
@@ -31,5 +32,4 @@ public class MessageController {
     public ResponseEntity<List<EnrichedMessageDto>> getMessagesByUsername(@PathVariable String username) {
         return ResponseEntity.ok(messageService.getMessagesByUsername(username));
     }
-
 }
