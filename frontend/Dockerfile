@@ -16,14 +16,19 @@ COPY . .
 # Construire l'application React
 RUN npm run build
 
-# Utiliser une image de base Nginx pour servir l'application
-FROM nginx:alpine
+# Utiliser une image de base Node.js pour servir l'application
+FROM node:alpine3.20
 
-# Copier les fichiers de build de l'application React vers le répertoire de Nginx
-COPY --from=0 /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-# Exposer le port 80
-EXPOSE 80
+# Ne copier que les fichiers nécessaires pour servir l'application
+COPY --from=0 /app/dist /app/dist
 
-# Démarrer Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Installer serve pour servir l'application
+RUN npm install -g serve
+
+# Exposer le port 3000
+EXPOSE 3000
+
+# Démarrer l'application
+CMD [ "serve", "-s", "dist" ]
