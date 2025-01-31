@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users/register", "/users/login").permitAll()
-                        .requestMatchers("/swagger-ui/**","/v3/api-docs/**", "/error").permitAll()
+                        .requestMatchers("/images/**","/swagger-ui/**","/v3/api-docs/**", "/error").permitAll()
                         .anyRequest().authenticated() // Protect all other endpoints
                 )
                 .sessionManagement(sess -> sess
@@ -77,7 +77,7 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-        return (CorsConfigurationSource) source;
+        return source;
     }
 }
 

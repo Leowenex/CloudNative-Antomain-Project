@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antomain.user_service.model.dto.serviceside.AuthoredMessageCreationDto;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,8 +13,5 @@ import java.util.UUID;
 @NoArgsConstructor
 public class MessageCreationDto {
     private String content;
-
-    public AuthoredMessageCreationDto toAuthoredMessageCreationDto(UUID senderId) {
-        return new AuthoredMessageCreationDto(senderId, content);
-    }
+    private MultipartFile messagePicture;
 }

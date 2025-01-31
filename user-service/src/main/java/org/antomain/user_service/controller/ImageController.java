@@ -2,10 +2,8 @@ package org.antomain.user_service.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.antomain.user_service.service.ImageService;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -15,16 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
 
     private final ImageService imageService;
-
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadImage(@RequestParam("image") final MultipartFile image) {
-        return ResponseEntity.ok(imageService.saveImage(image));
-    }
-
-    @GetMapping
-    public ResponseEntity<String[]> listImages() {
-        return ResponseEntity.ok(imageService.listImages());
-    }
 
     //Get image bytes by id
     @GetMapping("/{id}")

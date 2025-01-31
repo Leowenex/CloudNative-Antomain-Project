@@ -5,8 +5,10 @@ import org.antomain.user_service.model.dto.clientside.TokenDto;
 import org.antomain.user_service.model.dto.clientside.UserAuthDto;
 import org.antomain.user_service.model.dto.clientside.UserDto;
 import org.antomain.user_service.service.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,4 +35,13 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsers());
     }
 
+    @GetMapping("/whoami")
+    public ResponseEntity<UserDto> getCurrentUser() {
+        return ResponseEntity.ok(new UserDto(userService.getCurrentUser()));
+    }
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, path = "/profile-picture")
+    public ResponseEntity<String> uploadProfilePicture(@RequestParam("image") final MultipartFile image) {
+        return ResponseEntity.ok(userService.uploadProfilePicture(image));
+    }
 }

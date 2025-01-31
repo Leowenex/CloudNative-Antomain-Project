@@ -15,7 +15,7 @@ env:
 
 jobs:
   build_and_push:
-    name: User Service - Build app, run tests and push to Docker Hub
+    name: UserService - Build app, run tests and push to Docker Hub
     runs-on: ubuntu-latest
     permissions:
       packages: write

@@ -25,14 +25,6 @@ public class ImageService {
         }
     }
 
-    public String[] listImages() {
-        Path path = Paths.get("/images");
-        if (!path.toFile().exists()) {
-            return new String[0];
-        }
-        return path.toFile().list();
-    }
-
     /**
      * Saves image to filesystem /images directory
      * Creates the directory if it doesn't exist

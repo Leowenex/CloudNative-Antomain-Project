@@ -15,4 +15,5 @@ public class MessageCreationDto {
 
     private UUID senderId;
     private String content;
+    private String messagePictureFilename;
 }
