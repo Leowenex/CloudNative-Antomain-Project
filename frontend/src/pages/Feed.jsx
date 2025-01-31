@@ -10,9 +10,9 @@ function Feed() {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                let url = "http://localhost:8082/messages"
+                let url = "/messages"
                 if (routeUsername) {
-                    url = `http://localhost:8082/messages/${routeUsername}`
+                    url = `/messages/${routeUsername}`
                 }
 
                 const response = await axios.get(url, {
