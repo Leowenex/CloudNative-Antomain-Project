@@ -20,7 +20,7 @@ public class MessageDto {
     private String content;
     private String messagePictureFilename;
 
-    public EnrichedMessageDto toEnrichedMessageDto(User sender) {
-        return new EnrichedMessageDto(id, senderId, content, messagePictureFilename, sender);
+    public EnrichedMessageDto toEnrichedMessageDto(User sender, String imageServiceEndpoint) {
+        return new EnrichedMessageDto(id, senderId, content, messagePictureFilename, sender, imageServiceEndpoint);
     }
 }
