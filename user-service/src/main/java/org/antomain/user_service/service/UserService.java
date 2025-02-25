@@ -1,6 +1,7 @@
 package org.antomain.user_service.service;
 
 import lombok.RequiredArgsConstructor;
+import org.antomain.user_service.configuration.ApplicationConfiguration;
 import org.antomain.user_service.model.dto.clientside.TokenDto;
 import org.antomain.user_service.model.dto.clientside.UserAuthDto;
 import org.antomain.user_service.model.dto.clientside.UserDto;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final ApplicationConfiguration applicationConfiguration;
     private final AuthenticationManager authenticationManager;
     private final ImageService imageService;
     private final JwtService jwtService;
@@ -66,7 +68,7 @@ public class UserService {
 
     public List<UserDto> getUsers() {
         return userRepository.findAll().stream()
-                .map(UserDto::new)
+                .map(user -> new UserDto(user, applicationConfiguration.getUserServiceImagesEndpoint()))
                 .toList();
     }
 
