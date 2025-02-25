@@ -1,5 +1,7 @@
 package org.antomain.user_service.configuration;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -9,6 +11,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@OpenAPIDefinition(
+        servers = {
+                @Server(url = "/api/", description = "K8S URL"),
+                @Server(url = "http://localhost:8082/", description = "Local URL")
+        }
+)
 public class SwaggerConfig {
 
     private SecurityScheme createAPIKeyScheme() {
