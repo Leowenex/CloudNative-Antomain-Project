@@ -1,6 +1,6 @@
 
 external:
-  externalImageUrl: "https://antomain.io/api/images"
+  externalImageUrl: "http://localhost:31380/api/images/"
 
 frontendservice:
   image:
