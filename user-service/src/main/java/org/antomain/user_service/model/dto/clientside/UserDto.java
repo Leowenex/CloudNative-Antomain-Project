@@ -10,11 +10,11 @@ public class UserDto {
 
     private final UUID id;
     private final String username;
-    private final String profilePictureFilename;
+    private final String profilePictureUrl;
 
-    public UserDto(User user) {
+    public UserDto(User user, String imageServiceEndpoint) {
         this.id = user.getId();
         this.username = user.getUsername();
-        this.profilePictureFilename = user.getProfilePictureFilename();
+        this.profilePictureUrl = imageServiceEndpoint + user.getProfilePictureFilename();
     }
 }

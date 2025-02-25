@@ -1,6 +1,7 @@
 package org.antomain.user_service.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.antomain.user_service.configuration.ApplicationConfiguration;
 import org.antomain.user_service.model.dto.clientside.TokenDto;
 import org.antomain.user_service.model.dto.clientside.UserAuthDto;
 import org.antomain.user_service.model.dto.clientside.UserDto;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final ApplicationConfiguration applicationConfiguration;
 
     @PostMapping("/register")
     public ResponseEntity<TokenDto> registerUser(@RequestBody UserAuthDto userAuthDto) {
@@ -37,7 +39,7 @@ public class UserController {
 
     @GetMapping("/whoami")
     public ResponseEntity<UserDto> getCurrentUser() {
-        return ResponseEntity.ok(new UserDto(userService.getCurrentUser()));
+        return ResponseEntity.ok(new UserDto(userService.getCurrentUser(), applicationConfiguration.getUserServiceImagesEndpoint()));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, path = "/profile-picture")
