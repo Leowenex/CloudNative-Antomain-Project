@@ -77,6 +77,6 @@ public class UserService {
         String filename = imageService.saveImage(image);
         currentUser.setProfilePictureFilename(filename);
         userRepository.save(currentUser);
-        return filename;
+        return applicationConfiguration.getUserServiceImagesEndpoint() + filename;
     }
 }
