@@ -26,12 +26,5 @@ spec:
           envFrom:
             - secretRef:
                 name: user-secret
-          volumeMounts:
-            - name: images-volume
-              mountPath: /images
-      volumes:
-        - name: images-volume
-          persistentVolumeClaim:
-            claimName: user-service-pvc
       imagePullSecrets:
         - name: regcred

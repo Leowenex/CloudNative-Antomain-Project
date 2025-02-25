@@ -6,6 +6,13 @@ frontendservice:
   service:
       type: ClusterIP
 
+imageservice:
+  image:
+    tag: main
+    imagePullPolicy: Always
+  service:
+    type: ClusterIP
+
 messageservice:
   image:
       tag: main

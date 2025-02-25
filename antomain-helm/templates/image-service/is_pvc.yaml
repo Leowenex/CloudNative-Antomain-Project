@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: user-service-pvc
+  name: image-service-pvc
   labels:
     app: Antomain
-    service: user-service
+    service: image-service
 spec:
   storageClassName: manual
   accessModes:
