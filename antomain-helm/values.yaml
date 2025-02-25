@@ -1,10 +1,20 @@
 
+external:
+  externalImageUrl: "https://antomain.io/api/images"
+
 frontendservice:
   image:
       tag: main
       imagePullPolicy: Always
   service:
       type: ClusterIP
+
+imageservice:
+  image:
+    tag: main
+    imagePullPolicy: Always
+  service:
+    type: ClusterIP
 
 messageservice:
   image:
