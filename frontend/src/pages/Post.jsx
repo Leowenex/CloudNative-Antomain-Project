@@ -4,33 +4,29 @@ import { useNavigate } from "react-router-dom"
 
 function Post() {
     const [content, setContent] = useState("")
-    // const [file, setFile] = useState(null)  // Inutile pour l'instant
+    const [file, setFile] = useState(null)
     const navigate = useNavigate()
     const token = localStorage.getItem("token")
 
-    /*
     const handleFileChange = (e) => {
         setFile(e.target.files[0])
     }
-    */
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            // On ne gère pas l’upload pour le moment
-            // let imageId = null
-            // if (file) {
-            //   ...
-            // }
+            const formData = new FormData()
+            formData.append("content", content)
+            if (file) {
+                formData.append("messagePicture", file)
+            }
 
-            // Pour le moment, on poste sans image
-            await axios.post(
-                "messages",
-                { content }, // ignorons imageId
-                {
-                    headers: { Authorization: `Bearer ${token}` }
+            await axios.post("/messages", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data"
                 }
-            )
+            })
 
             navigate("/feed")
         } catch (error) {
@@ -53,12 +49,10 @@ function Post() {
                 </div>
                 <div>
                     <label>Image (optionnel) :</label>
-                    <input type="file" /*onChange={handleFileChange}*/ accept="image/*" />
+                    <input type="file" onChange={handleFileChange} accept="image/*" />
                 </div>
                 <button type="submit">Publier</button>
             </form>
-
-            <p>Ajout d’image pas encore disponible. (Placeholder)</p>
         </div>
     )
 }

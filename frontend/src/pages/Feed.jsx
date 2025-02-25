@@ -1,11 +1,11 @@
-import  { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import { useParams, Link } from "react-router-dom"
 
 function Feed() {
     const [messages, setMessages] = useState([])
     const token = localStorage.getItem("token")
-    const { username: routeUsername } = useParams() // /feed/:username ?
+    const { username: routeUsername } = useParams()
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -14,16 +14,20 @@ function Feed() {
                 if (routeUsername) {
                     url = `/messages/${routeUsername}`
                 }
-
                 const response = await axios.get(url, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
-                setMessages(response.data)
+                console.log("Réponse de l'API:", response.data)
+                if (Array.isArray(response.data)) {
+                    setMessages(response.data)
+                } else {
+                    console.error("La réponse n'est pas un tableau :", response.data)
+                    setMessages([])
+                }
             } catch (error) {
                 console.error("Erreur lors de la récupération des messages : ", error)
             }
         }
-
         fetchMessages()
     }, [token, routeUsername])
 
@@ -33,20 +37,14 @@ function Feed() {
             {messages.length === 0 && <p>Aucun message pour le moment.</p>}
 
             {messages.map((msg) => {
-                // Si pas de photo de profil, on utilise un avatar placeholder
-                const profilePicUrl = msg.senderProfileUrl
-                    ? msg.senderProfileUrl
+                const profilePicUrl = msg.senderProfilePictureUrl
+                    ? msg.senderProfilePictureUrl
                     : "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
 
-                // Si pas d’image pour le post, on n’affiche rien
-                // (Ou on pourrait mettre un placeholder aussi)
-                const postImageUrl = msg.imageUrl
-                    ? msg.imageUrl
-                    : null // "https://via.placeholder.com/200?text=Post"
+                const postImageUrl = msg.messagePictureUrl || null
 
                 return (
                     <div key={msg.id} className="message-card">
-                        {/* Lien vers /feed/nomUtilisateur */}
                         <Link to={`/feed/${msg.senderUsername}`} className="msg-user">
                             <img
                                 src={profilePicUrl}
@@ -55,10 +53,7 @@ function Feed() {
                             />
                             <span>{msg.senderUsername}</span>
                         </Link>
-
                         <p>{msg.content}</p>
-
-                        {/* Afficher l’image du post s’il y en a une */}
                         {postImageUrl && (
                             <img
                                 src={postImageUrl}

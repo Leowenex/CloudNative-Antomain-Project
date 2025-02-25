@@ -1,8 +1,9 @@
 import { useState } from "react"
+import axios from "axios"
 
 function Account() {
     const [file, setFile] = useState(null)
-    // const token = localStorage.getItem("token") // Inutile pour l'instant
+    const token = localStorage.getItem("token")
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0])
@@ -12,12 +13,22 @@ function Account() {
         e.preventDefault()
         if (!file) return
 
-        // Pour l’instant, on se contente d’un console.log
-        // (Le backend images n’étant pas encore opérationnel)
-        console.log("Fichier sélectionné :", file)
+        const formData = new FormData()
+        formData.append("image", file)
+        formData.append("filename", file.name)
 
-        // TODO: implémenter l'upload vers /images puis PATCH /users/me/profile-image
-        //       une fois le backend fonctionnel
+        try {
+            const response = await axios.post("/users/profile-picture", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            console.log("Image de profil mise à jour, url :", response.data)
+            // Ici, vous pouvez mettre à jour l'affichage de la photo de profil en utilisant response.data
+        } catch (error) {
+            console.error("Erreur lors de l'upload de l'image de profil :", error)
+        }
     }
 
     return (
@@ -30,8 +41,6 @@ function Account() {
                 </div>
                 <button type="submit">Mettre à jour</button>
             </form>
-
-            <p>Fonctionnalité d'upload d'image pas encore disponible.</p>
         </div>
     )
 }
