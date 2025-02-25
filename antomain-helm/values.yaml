@@ -1,4 +1,7 @@
 
+external:
+  externalImageUrl: "https://antomain.io/api/images"
+
 frontendservice:
   image:
       tag: main
