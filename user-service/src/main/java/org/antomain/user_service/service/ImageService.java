@@ -1,63 +1,67 @@
 package org.antomain.user_service.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.antomain.user_service.configuration.ApplicationConfiguration;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@Slf4j
 public class ImageService {
 
+    private final ApplicationConfiguration applicationConfiguration;
+    private final RestTemplate restTemplate;
+
+    public ImageService(ApplicationConfiguration applicationConfiguration , RestTemplateBuilder restTemplateBuilder) {
+        this.applicationConfiguration = applicationConfiguration;
+        this.restTemplate = restTemplateBuilder.build();
+    }
+
+
     public byte[] getImageById(String id) {
-        Path path = Paths.get("/images", id);
+        String url = applicationConfiguration.getImageServiceUrl() + "/images/" + id;
         try {
-            return Files.readAllBytes(path);
-        } catch (IOException e) {
+            return restTemplate.getForObject(url, byte[].class);
+        } catch (Exception e) {
+            log.error("Error while fetching image", e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
         }
     }
 
-    /**
-     * Saves image to filesystem /images directory
-     * Creates the directory if it doesn't exist
-     * Returns the UUID of the saved image
-     * @param image - image bytes
-     * @return UUID of the saved image
-     */
+
     public String saveImage(MultipartFile image) {
-
-        String filename = image.getOriginalFilename();
-        if (filename == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No file provided");
-        }
-        String fileType = filename.substring(filename.lastIndexOf(".") + 1);
-        if (!fileType.equals("jpg") && !fileType.equals("jpeg") && !fileType.equals("png")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only jpg, jpeg and png files are allowed");
-        }
-
-        Path path = Paths.get("/images");
-        if (!path.toFile().exists()) {
-            if (!path.toFile().mkdir()) {
-                throw new RuntimeException("Failed to create images directory");
-            }
-        }
-
-        String id = UUID.randomUUID()+"."+fileType;
-        Path imagePath = Paths.get("/images", id);
+        String url = applicationConfiguration.getImageServiceUrl() + "/images";
         try {
-            Files.write(imagePath, image.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to save image");
-        }
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        return id;
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("image", new ByteArrayResource(image.getBytes()) {
+                @Override
+                public String getFilename() {
+                    return image.getOriginalFilename();
+                }
+            });
+
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return response.getBody();
+            } else {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to save image");
+            }
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to read image bytes", e);
+        }
     }
 }

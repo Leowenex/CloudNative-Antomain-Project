@@ -42,7 +42,7 @@ public class MessageService {
         AuthoredMessageCreationDto authoredMessageCreationDto = new AuthoredMessageCreationDto(currentUser.getId(), messageCreationDto.getContent(), messagePictureFilename);
         MessageDto messageDto = restTemplate.postForObject(applicationConfiguration.getMessageServiceUrl() + "/messages", authoredMessageCreationDto, MessageDto.class);
         assert messageDto != null;
-        return messageDto.toEnrichedMessageDto(currentUser, applicationConfiguration.getImageServiceUrl());
+        return messageDto.toEnrichedMessageDto(currentUser, applicationConfiguration.getUserServiceImagesEndpoint());
     }
 
     // May need to be sent to own class
@@ -51,7 +51,7 @@ public class MessageService {
         return Arrays.stream(messages)
                 .map(message -> {
                     User sender = userCache.computeIfAbsent(message.getSenderId(), id -> userRepository.findById(id).orElseThrow());
-                    return message.toEnrichedMessageDto(sender, applicationConfiguration.getImageServiceUrl());
+                    return message.toEnrichedMessageDto(sender, applicationConfiguration.getUserServiceImagesEndpoint());
                 })
                 .collect(Collectors.toList());
     }

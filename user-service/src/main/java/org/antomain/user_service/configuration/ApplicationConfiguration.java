@@ -17,4 +17,7 @@ public class ApplicationConfiguration {
 
     @Value("${services.imagesService.url}")
     private String imageServiceUrl;
+
+    @Value("${services.userService.images.url}")
+    private String userServiceImagesEndpoint;
 }
