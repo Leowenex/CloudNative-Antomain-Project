@@ -15,10 +15,11 @@ spec:
         app: Antomain
         service: postgres-service
     spec:
+      serviceAccountName: {{ .Values.postgreSql.serviceAccount.name }}
       containers:
         - name: postgres
-          image: "postgres:{{ .Values.postgresql.image.tag }}"
-          imagePullPolicy: {{ .Values.postgresql.image.imagePullPolicy }}
+          image: "postgres:{{ .Values.postgreSql.image.tag }}"
+          imagePullPolicy: {{ .Values.postgreSql.image.imagePullPolicy }}
           ports:
             - containerPort: 5432
           envFrom:

@@ -18,9 +18,10 @@ spec:
         app: Antomain
         service: frontend-service
     spec:
+      serviceAccountName: {{ .Values.frontendService.serviceAccount.name }}
       containers:
         - name: frontend-service
-          image: "leowenex/antomain-cloudnative-frontend:{{ .Values.frontendservice.image.tag }}"
-          imagePullPolicy: {{ .Values.frontendservice.image.imagePullPolicy }}
+          image: "leowenex/antomain-cloudnative-frontend:{{ .Values.frontendService.image.tag }}"
+          imagePullPolicy: {{ .Values.frontendService.image.imagePullPolicy }}
           ports:
             - containerPort: 3000

@@ -1,0 +1,15 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ms-allow-user-service
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: Antomain
+      service: message-service
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/{{ .Values.namespace }}/sa/{{ .Values.userService.serviceAccount.name }}"]

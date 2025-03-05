@@ -7,7 +7,7 @@ metadata:
     app: Antomain
     service: message-service
 spec:
-  type: {{ .Values.messageservice.service.type }}
+  type: {{ .Values.messageService.service.type }}
   ports:
     - port: 80
       targetPort: 8081

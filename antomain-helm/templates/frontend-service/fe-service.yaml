@@ -7,7 +7,7 @@ metadata:
     app: Antomain
     service: frontend-service
 spec:
-  type: {{ .Values.frontendservice.service.type }}
+  type: {{ .Values.frontendService.service.type }}
   ports:
     - port: 80
       targetPort: 3000

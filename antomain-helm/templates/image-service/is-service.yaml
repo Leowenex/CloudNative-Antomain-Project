@@ -7,7 +7,7 @@ metadata:
     app: Antomain
     service: image-service
 spec:
-  type: {{ .Values.imageservice.service.type }}
+  type: {{ .Values.imageService.service.type }}
   ports:
     - port: 80
       targetPort: 8083

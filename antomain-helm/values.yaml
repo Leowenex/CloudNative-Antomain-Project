@@ -4,28 +4,36 @@ namespace: antomain
 external:
   externalImageUrl: "http://localhost:31380/api/images/"
 
-frontendservice:
+frontendService:
+  serviceAccount:
+      name: frontend-service-account
   image:
       tag: main
       imagePullPolicy: Always
   service:
       type: ClusterIP
 
-imageservice:
+imageService:
+  serviceAccount:
+      name: image-service-account
   image:
     tag: main
     imagePullPolicy: Always
   service:
     type: ClusterIP
 
-messageservice:
+messageService:
+  serviceAccount:
+      name: message-service-account
   image:
       tag: main
       imagePullPolicy: Always
   service:
       type: ClusterIP
 
-userservice:
+userService:
+  serviceAccount:
+      name: user-service-account
   image:
       tag: main
       imagePullPolicy: Always
@@ -35,7 +43,9 @@ userservice:
       jwtsecret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecret
       jwttokenlifetimeminutes: 60
 
-postgresql:
+postgreSql:
+  serviceAccount:
+      name: postgresql-service-account
   image:
       tag: latest
       imagePullPolicy: IfNotPresent

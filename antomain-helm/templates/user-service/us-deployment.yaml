@@ -18,10 +18,11 @@ spec:
         app: Antomain
         service: user-service
     spec:
+      serviceAccountName: {{ .Values.userService.serviceAccount.name }}
       containers:
         - name: user-service
-          image: "leowenex/antomain-cloudnative-userservice:{{ .Values.userservice.image.tag }}"
-          imagePullPolicy: {{ .Values.userservice.image.imagePullPolicy }}
+          image: "leowenex/antomain-cloudnative-userservice:{{ .Values.userService.image.tag }}"
+          imagePullPolicy: {{ .Values.userService.image.imagePullPolicy }}
           ports:
             - containerPort: 8082
           envFrom:
