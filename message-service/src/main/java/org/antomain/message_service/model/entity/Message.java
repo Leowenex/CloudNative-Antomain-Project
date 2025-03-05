@@ -4,7 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +18,9 @@ public class Message {
     @Id
     @GeneratedValue
     private UUID id;
+
+    @CreationTimestamp
+    private LocalDateTime creationTimeStamp;
 
     private UUID senderId;
 

@@ -16,11 +16,11 @@ public class MessageService {
     private final MessageRepository messageRepository;
 
     public List<Message> getMessagesBySenderId(UUID senderId) {
-        return messageRepository.findBySenderId(senderId);
+        return messageRepository.findBySenderIdOrderByCreationTimeStampDesc(senderId);
     }
 
     public List<Message> getAllMessages() {
-        return messageRepository.findAll();
+        return messageRepository.findByOrderByCreationTimeStampDesc();
     }
 
     public Message saveMessage(MessageCreationDto messageCreationDto) {
