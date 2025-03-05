@@ -1,0 +1,16 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: pg-allow-user-service
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: Antomain
+      service: postgres-service
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/{{ .Values.namespace }}/sa/{{ .Values.userService.serviceAccount.name }}",
+                         "cluster.local/ns/{{ .Values.namespace }}/sa/{{ .Values.messageService.serviceAccount.name }}"]
