@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: antomain-peer-authentication-policy
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: Antomain
+  mtls:
+    mode: STRICT

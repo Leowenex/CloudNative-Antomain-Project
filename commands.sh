@@ -10,9 +10,11 @@ minikube start --memory=8192mb --cpus=4
 
 istioctl install --set profile=demo -y
 
-kubectl label namespace default istio-injection=enabled
+kubectl create namespace antomain
 
-# In istio repo root (downloaded separately) :
+kubectl label namespace antomain istio-injection=enabled
+
+# In istio repo root (downloaded separately from https://github.com/istio/istio) :
 
 kubectl apply -f samples/addons
 

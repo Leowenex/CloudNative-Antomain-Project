@@ -1,4 +1,6 @@
 
+namespace: antomain
+
 external:
   externalImageUrl: "http://localhost:31380/api/images/"
 

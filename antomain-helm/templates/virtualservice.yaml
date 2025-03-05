@@ -2,6 +2,7 @@ apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: antomain-virtualservice
+  namespace: {{ .Values.namespace }}
 spec:
   hosts:
     - "*"
@@ -17,7 +18,7 @@ spec:
         - destination:
             port:
               number: 80
-            host: user-service.default.svc.cluster.local
+            host: user-service.{{ .Values.namespace }}.svc.cluster.local
     - match:
         - uri:
             prefix: / #Default service
@@ -27,4 +28,4 @@ spec:
         - destination:
             port:
               number: 80
-            host: frontend-service.default.svc.cluster.local
+            host: frontend-service.{{ .Values.namespace }}.svc.cluster.local

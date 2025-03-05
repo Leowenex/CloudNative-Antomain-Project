@@ -2,6 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: frontend-circuitbreaker
+  namespace: {{ .Values.namespace }}
 spec:
   host: frontend-service.default.svc.cluster.local
   trafficPolicy:

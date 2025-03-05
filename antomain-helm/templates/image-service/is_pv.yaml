@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: image-service-pv
+  namespace: {{ .Values.namespace }}
   labels:
     app: Antomain
     service: image-service
