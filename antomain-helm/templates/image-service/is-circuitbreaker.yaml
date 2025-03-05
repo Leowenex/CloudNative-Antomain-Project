@@ -1,10 +1,10 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: frontend-circuitbreaker
+  name: image-circuitbreaker
   namespace: {{ .Values.namespace }}
 spec:
-  host: frontend-service.{{ .Values.namespace }}.svc.cluster.local
+  host: image-service.{{ .Values.namespace }}.svc.cluster.local
   trafficPolicy:
     connectionPool:
       tcp:

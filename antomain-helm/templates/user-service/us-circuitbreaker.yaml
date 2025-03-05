@@ -4,7 +4,7 @@ metadata:
   name: user-circuitbreaker
   namespace: {{ .Values.namespace }}
 spec:
-  host: user-service.default.svc.cluster.local
+  host: user-service.{{ .Values.namespace }}.svc.cluster.local
   trafficPolicy:
     connectionPool:
       tcp:
